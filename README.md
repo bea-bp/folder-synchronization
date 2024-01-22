@@ -19,4 +19,4 @@ Clone the repository or download the script to your local machine.
 To use the Folder Synchronization, run the script from the command line with the following arguments:
 
 ```bash
-python folderSynchronization.py <source_directory> <replica_directory> <interval_in_minutes> <log_file_path>
+python folderSynchronization.py <source_directory> <replica_directory> <interval_in_seconds> <log_file_path>

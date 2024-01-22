@@ -6,24 +6,25 @@ import hashlib
 import time
 
 def controlArguments():
-    global pathSource, pathReplica, fileToLog
-    parser = argparse.ArgumentParser(description="Sincroniza dos carpetas y registra las acciones.")
-    parser.add_argument("source", type=str, help="Ruta a la carpeta fuente")
-    parser.add_argument("replica", type=str, help="Ruta a la carpeta réplica")
-    parser.add_argument("interval", type=int, help="Intervalo en minutos (1-60)")
-    parser.add_argument("logFile", type=str, help="Ruta al archivo de registro")
+    global pathSource, pathReplica, fileToLog, interval
+    parser = argparse.ArgumentParser(description="Synchronize two folders and log actions")
+    parser.add_argument("source", type=str, help="Path to source folder")
+    parser.add_argument("replica", type=str, help="Path to replica folder")
+    parser.add_argument("interval", type=int, help="Interval in seconds (10-60)")
+    parser.add_argument("logFile", type=str, help="Path to log file")
 
     args = parser.parse_args()
 
-    # Verifica si las rutas de source y replica existen
+    # Verify if source and replica paths exist
     if not os.path.isdir(args.source):
-        sys.exit(f"Error: La carpeta fuente '{args.source}' no existe.")
+        sys.exit(f"Error: The source folder '{args.source}' does not exist.")
     if not os.path.isdir(args.replica):
-        sys.exit(f"Error: La carpeta réplica '{args.replica}' no existe.")
-    if args.interval < 1 or args.interval > 60:
-        sys.exit(f"Error: interval debe estar entre 1 y 60.")
+        sys.exit(f"Error: The replica folder'{args.replica}' does not exist.")
+    if args.interval < 10 or args.interval > 60:
+        sys.exit(f"Error: interval must be between 10 and 60.")
     pathSource = args.source
     pathReplica = args.replica
+    interval = args.interval
     fileToLog = open(args.logFile, "w")
 
 def readFoldersContent():
@@ -113,7 +114,7 @@ if __name__ == "__main__":
     fileToLog = None
     pathSourceContent = {"folders": [], "files": []}
     pathReplicaContent = {"folders": [], "files": []}
-    interval = 10
+    interval = None
     numberOfExecution = 0
     controlArguments()
     while True:
